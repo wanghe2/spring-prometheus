@@ -3,6 +3,7 @@ package org.wh.controller;
 import io.micrometer.core.instrument.Tags;
 import io.micrometer.prometheus.PrometheusMeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,21 @@ public class TestController {
         prometheusMeterRegistry.counter("userRecords",tags).increment();
         return "查询用户，并加入监测统计中";
     }
+
+
+    @Async
+    @GetMapping("asyncFun")
+    public void asyncFun() throws InterruptedException {
+        Thread.sleep(1000*30);
+        System.err.println("----------请求完成--------");
+    }
+
+    @GetMapping("syncFun")
+    public void syncFun() throws InterruptedException {
+        Thread.sleep(1000*30);
+        System.err.println("##########请求完成#########");
+    }
+
 
 
 }
